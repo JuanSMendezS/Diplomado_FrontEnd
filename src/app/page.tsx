@@ -1,66 +1,12 @@
 "use client";
-import { FormEvent, useEffect } from "react";
 import { Divider } from "@nextui-org/divider";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import { Link } from "@nextui-org/link";
-import { redirect } from "next/navigation";
-import { useForm, useSwal, useApi } from "@/hooks/utils";
+import useLogin from "@/hooks/views/useLogin";
 
 export default function Login() {
-  const { email, password, onInputChange } = useForm({
-    email: "",
-    password: "",
-  });
-  const { toast } = useSwal();
-  const { errorApi, loadApi, loadedApi } = useApi();
-
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!email.trim()) {
-      toast({
-        text: "Debe ingresar el email.",
-        icon: "warning",
-        position: "top",
-      });
-      return;
-    }
-    if (!password.trim()) {
-      toast({
-        text: "Debe ingresar la contraseña.",
-        icon: "warning",
-        position: "center",
-      });
-      return;
-    }
-    signIn();
-  };
-
-  const signIn = () => {};
-
-  const validateSession = async () => {
-    if (loadedApi) {
-      await loadApi({
-        endpoint: "sesiones/validar-sesion",
-        token: true,
-        type: "GET",
-      })
-        .then(({ data: { estado } }) => {
-          if (estado) {
-            redirect("dashboard");
-            console.log("dashboard");
-          } else {
-            redirect("/");
-            console.log("LOGIN");
-          }
-        })
-        .catch((error) => console.log(error, errorApi));
-    }
-  };
-
-  useEffect(() => {
-    validateSession();
-  }, []);
+const {email,onInputChange,onSubmit,password} = useLogin();
 
   return (
     <main className="h-screen w-screen flex items-center justify-center">
