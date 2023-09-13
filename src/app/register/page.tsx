@@ -62,6 +62,7 @@ const page = () => {
             label="Numero telefonico"
             className="py-5"
             name="numero_documento"
+            //asdasd
             //value={password}
             //onChange={onInputChange}
           />
