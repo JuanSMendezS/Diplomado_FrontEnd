@@ -33,7 +33,7 @@ const {email,onInputChange,onSubmit,password} = useLogin();
             title="Iniciar Sección"
             className="w-full bg-cuc-dorado hover:bg-cuc-dorado-hover"
           >
-            Iniciar Sección
+            Iniciar Sesión
           </Button>
         </form>
         <Divider className="my-6" />
