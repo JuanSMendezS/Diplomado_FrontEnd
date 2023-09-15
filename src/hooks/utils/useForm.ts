@@ -1,7 +1,37 @@
 import { ChangeEvent, useState } from "react";
 
-export const useForm = <T extends Object>(initialForm: T) => {
-  const [formState, setFormState] = useState(initialForm);
+/**
+ * Custom hook that manages the state of a form.
+ * @template T - The type of the initial form object.
+ * @param {T} initialForm - The initial state of the form as an object.
+ * @returns {Object} - An object containing the form state, a function to handle input changes, and the current form state.
+ *
+ * @example
+ * const initialForm = {
+ *   name: "",
+ *   email: "",
+ *   password: "",
+ * };
+ *
+ * const MyComponent = () => {
+ *   const { name, email, password, onInputChange } = useForm(initialForm);
+ *
+ *   const handleSubmit = () => {
+ *     // handle form submission
+ *   };
+ *
+ *   return (
+ *     <form onSubmit={handleSubmit}>
+ *       <input type="text" name="name" value={name} onChange={onInputChange} />
+ *       <input type="email" name="email" value={email} onChange={onInputChange} />
+ *       <input type="password" name="password" value={password} onChange={onInputChange} />
+ *       <button type="submit">Submit</button>
+ *     </form>
+ *   );
+ * };
+ */
+export const useForm = <T extends object>(initialForm: T) => {
+  const [formState, setFormState] = useState<T>(initialForm);
 
   const onInputChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = target;
