@@ -43,29 +43,7 @@ const useLogin = () => {
 
   const signIn = () => {};
 
-  const validateSession = () => {
-    if (loadedApi) {
-      loadApi({
-        endpoint: "sesiones/validar-sesion",
-        token: true,
-        type: "GET",
-      })
-        .then(({ data: { estado } }) => {
-          if (estado) {
-            redirect("dashboard");
-            console.log("dashboard");
-          } else {
-            redirect("/");
-            console.log("LOGIN");
-          }
-        })
-        .catch((error) => console.log(error, errorApi));
-    }
-  };
 
-  useEffect(() => {
-    validateSession();
-  }, []);
   return {
     onSubmit,
     onInputChange,
