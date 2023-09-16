@@ -1,30 +1,35 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import Cookies from "universal-cookie";
-// import { useApi } from "./hooks/utils";
+import axios from "axios";
 const cookie = new Cookies();
 
 export const middleware = async (request: NextRequest) => {
-  // const { loadApi } = useApi();
   const token = cookie.get("token") === null && "";
-  console.log("toke:", token);
+
   if (!token) return NextResponse.redirect(new URL("/", request.url));
-/*
+
   const validateSession = async () => {
-    const {
-      data: { estado },
-    } = await loadApi({
-      endpoint: "sesiones/validar-sesion",
-      token: true,
-      type: "GET",
-    });
-    if (!estado) {
-      return NextResponse.redirect(new URL("/", request.url));
+    try {
+      const server = process.env.BACKEND_URL;
+      console.log(server);
+      const { estado } = await fetch(`${server}/api/sesiones/validar-sesion`, {
+        headers: {
+          "access-token": `${token}`,
+        },
+      }).then((response) => response.json());
+
+      if (!estado) {
+        return NextResponse.redirect(new URL("/", request.url));
+      }
+      return NextResponse.next();
+    } catch (error) {
+      console.log(error);
+      return NextResponse.next();
     }
-    return NextResponse.next();
   };
-*/
-  return NextResponse.next();// await validateSession();
+
+  return await validateSession();
 };
 
 export const config = {
