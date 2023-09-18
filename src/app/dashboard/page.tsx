@@ -1,15 +1,15 @@
-import { Button } from '@nextui-org/button'
-import { Divider } from '@nextui-org/divider'
-import { Input } from '@nextui-org/input'
-import Link from 'next/link'
-import React from 'react'
+"use client";
+import { Button } from "@nextui-org/button";
+import { Divider } from "@nextui-org/divider";
+import { Input } from "@nextui-org/input";
+import Link from "next/link";
 
 const page = () => {
   return (
     <main className="h-screen w-screen flex items-center justify-center">
       <div className="bg-cuc h-full w-full box-border md:h-[900px] md:w-8/12 lg:max-w-[675px] md:rounded-small md:mt-2 flex items-center justify-center flex-col ">
         <p className="text-5xl mb-5">Registro</p>
-        <form className="w-full px-8" >
+        <form className="w-full px-8">
           <Input
             type="text"
             label="Nombre"
@@ -91,7 +91,7 @@ const page = () => {
         </p>
       </div>
     </main>
-  )
-}
+  );
+};
 
-export default page
+export default page;

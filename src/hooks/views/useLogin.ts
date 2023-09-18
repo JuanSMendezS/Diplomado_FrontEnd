@@ -1,6 +1,9 @@
+import { useForm, useSwal } from "@/hooks/utils";
+import { FormEvent, useContext, useEffect} from "react";
+import { AuthContext } from "@/app/context/AuthContext";
+import Cookies from "universal-cookie";
 import { redirect } from "next/navigation";
-import { useForm, useSwal, useApi } from "@/hooks/utils";
-import { FormEvent, useEffect } from "react";
+import { RedirectType } from "next/dist/client/components/redirect";
 
 /**
  * Custom hook that handles the login functionality in a React application.
@@ -13,12 +16,15 @@ import { FormEvent, useEffect } from "react";
  * @property {string} password - The current value of the password input field.
  */
 const useLogin = () => {
+ 
   const { formState, onInputChange } = useForm({
     email: "",
     password: "",
   });
+  const { signIn } = useContext(AuthContext);
   const { toast } = useSwal();
-  const { errorApi, loadApi, loadedApi } = useApi();
+  let loadingApi = false;
+
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,19 +40,26 @@ const useLogin = () => {
       toast({
         text: "Debe ingresar la contraseña.",
         icon: "warning",
-        position: "center",
+        position: "top",
       });
       return;
     }
-    signIn();
+    loadingApi = signIn(formState);
   };
+  
+  useEffect(() => {
+    const token:string = new Cookies().get('token') ||'';
+    if (token.length>0) {
+      redirect('/dashboard',RedirectType.push)
+    }
 
-  const signIn = () => {};
-
+  }, [])
+  
 
   return {
     onSubmit,
     onInputChange,
+    loadingApi,
     ...formState,
   };
 };

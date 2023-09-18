@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios, { AxiosRequestConfig, Method } from "axios";
 import Cookies from "universal-cookie";
+import { redirect } from "next/navigation";
 
 interface IHeaderPropsAPI {
   "access-token": string | undefined;
@@ -20,15 +21,15 @@ interface ILoadApiProps {
 }
 
 /**
- * Summary: 
+ * Summary:
  *    This code defines a custom hook called `useApi` that can be used to make API requests. It handles loading states, error handling, and authentication using tokens.
- * 
- * Example Usage: 
+ *
+ * Example Usage:
  *    import { useApi } from "./useApi";
- * 
+ *
  *    const MyComponent = () => {
  *      const { loadApi, loadingApi, errorApi, loggedApi, loadedApi } = useApi();
- * 
+ *
  *      const fetchData = async () => {
  *        try {
  *          const response = await loadApi({
@@ -41,7 +42,7 @@ interface ILoadApiProps {
  *          console.error(error);
  *        }
  *      };
- * 
+ *
  *      return (
  *        <div>
  *          {loadingApi.includes("GET__/data") && <p>Loading...</p>}
@@ -51,15 +52,15 @@ interface ILoadApiProps {
  *        </div>
  *      );
  *    };
- * 
- * Inputs: 
+ *
+ * Inputs:
  *    - `type` (optional): The HTTP method for the API request (default is "GET").
  *    - `endpoint`: The endpoint URL for the API request.
  *    - `token` (optional): A boolean flag indicating whether authentication token should be included in the request headers.
  *    - `body` (optional): The request body data.
  *    - `file` (optional): A boolean flag indicating whether the request is a file upload.
- * 
- * Flow: 
+ *
+ * Flow:
  *    1. The `loadApi` function is called with the specified inputs.
  *    2. The loading state is updated to include the current request.
  *    3. The loaded state is updated to remove the current request.
@@ -69,22 +70,22 @@ interface ILoadApiProps {
  *    7. If the response contains an error, the error state is updated and an error is thrown.
  *    8. The loading and loaded states are updated to reflect the completion of the request.
  *    9. The response is returned.
- * 
- * Outputs: 
+ *
+ * Outputs:
  *    - `loadApi`: A function that makes an API request and returns the response.
  *    - `loadingApi`: An array of strings representing the currently loading requests.
  *    - `errorApi`: A string representing the error message, if any.
- *    - `loggedApi`: A boolean indicating whether the user is logged in.
+ *    - `loggedApi`: A boolean indicating whether the state is logged in.
  *    - `loadedApi`: An array of strings representing the successfully loaded requests.
  */
 export const useApi = () => {
-  const [loadingApi, setLoading] = useState<string[]>([]);
+  const [loadingApi, setLoading] = useState<boolean>(false);
   const [loadedApi, setLoadedApi] = useState<string[]>([]);
   const [errorApi, setErrorApi] = useState<string>("");
   const cookie = new Cookies();
 
   const loggedApi = Boolean(
-    cookie.get("token") && localStorage.getItem("user")
+    cookie.get("token") && localStorage.getItem("state")
   );
 
   function setError(error: string) {
@@ -99,7 +100,7 @@ export const useApi = () => {
     file,
   }: ILoadApiProps) => {
     setErrorApi("");
-    setLoading([...loadingApi, `${type}__${endpoint}`]);
+    setLoading(true);
     setLoadedApi((prevState) =>
       prevState.filter((item) => item !== `${type}__${endpoint}`)
     );
@@ -125,8 +126,7 @@ export const useApi = () => {
 
       const config: IRequestProp = {
         method: type,
-        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/${endpoint}`,
-
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${endpoint}`,
         headers: headers,
       };
 
@@ -158,27 +158,29 @@ export const useApi = () => {
         setError(response.data.error);
         throw new Error(response.data.error);
       }
-      setLoading((prevState) =>
-        prevState.filter((item) => item !== `${type}__${endpoint}`)
-      );
+      setLoading(false);
       setLoadedApi((value) => [...value, `${type}__${endpoint}`]);
       return response;
     } catch (error: any) {
-      setLoading((prevState) =>
-        prevState.filter((item) => item !== `${type}__${endpoint}`)
-      );
+      setLoading(false);
       if (error.response) {
         if (error.response.data.msg) {
-          if (
-            error.response.data.msg === "INVALID_TOKEN" ||
-            error.response.data.msg === "MISSING_TOKEN"
-          ) {
-            cookie.remove("token");
-            localStorage.clear();
-            window.location.replace("/login");
+          switch (error.response.data.msg) {
+            case "INVALID_TOKEN":
+              cookie.remove("token");
+              localStorage.clear();
+              redirect("/");
+            case "NOT-PROVIDED-TOKEN":
+              setError("Se requiere un token");
+              throw new Error("Se requiere un token");
+            case "NOT-PROVIDED-IP":
+              setError("No se reconoció el origen de la petición");
+              throw new Error("No se reconoció el origen de la petición");
+
+            default:
+              setError(error.response.data.msg);
+              throw new Error(error.response.data.msg);
           }
-          setError(error.response.data.msg);
-          throw new Error(error.response.data.msg);
         } else {
           setError(
             "Error interno del servidor, actualiza la página e intente nuevamente."
