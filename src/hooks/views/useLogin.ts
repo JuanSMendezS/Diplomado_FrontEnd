@@ -1,6 +1,6 @@
 import { useForm, useSwal } from "@/hooks/utils";
 import { FormEvent, useContext, useEffect} from "react";
-import { AuthContext } from "@/app/context/AuthContext";
+import { AuthContext } from "@/context/AuthContext";
 import Cookies from "universal-cookie";
 import { redirect } from "next/navigation";
 import { RedirectType } from "next/dist/client/components/redirect";

@@ -14,6 +14,7 @@ module.exports = {
         cuc: "#9c2e38",
         "cuc-dorado": "#c79e32",
         "cuc-dorado-hover": "#ad8a2d",
+        "fondo-color": "#18181b",
       },
     },
   },
