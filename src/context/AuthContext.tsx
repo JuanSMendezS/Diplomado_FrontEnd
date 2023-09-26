@@ -2,8 +2,8 @@
 import React, { createContext, useEffect, useReducer } from "react";
 import { authReducer } from "./AuthReducer";
 import { useApi, useSwal } from "@/hooks/utils";
-import { redirect } from "next/navigation";
 import Cookies from "universal-cookie";
+import useLocalStorage from "@/hooks/utils/useLocalStorage";
 
 export interface IUserProps {
   id: number;
@@ -46,24 +46,24 @@ interface IContextProps {
 
 export const AuthContext = createContext<IContextProps>({} as IContextProps);
 
-const inicialValue = (JSON.parse(localStorage.getItem("state") || "{}") as {
-  user: IUserProps;
-  permisos: IPermisosProps[];
-}) || {
-  user: {
-    apellidos: "",
-    email: "",
-    nombres: "",
-    numero_identificacion: "",
-    id: 0,
-  },
-  permisos: [],
-};
+
 export const AuthContextProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
+
+  const {state:inicialValue}= useLocalStorage("state",{
+    user: {
+      apellidos: "",
+      email: "",
+      nombres: "",
+      numero_identificacion: "",
+      id: 0,
+    },
+    permisos: [],
+  });
+  
   const [state, dispatch] = useReducer(authReducer, inicialValue);
   const { errorApi, loadApi, loadingApi } = useApi();
   const { toast } = useSwal();
@@ -71,7 +71,7 @@ export const AuthContextProvider = ({
   const signIn = (loginData: ILoginData): boolean => {
     const requestAPI = async () => {
       try {
-        const { data } = await loadApi({
+        const { data }:any = await loadApi({
           endpoint: "usuarios/signin",
           type: "POST",
           body: loginData,
@@ -79,7 +79,7 @@ export const AuthContextProvider = ({
         const { user, permisos,token } = data.data;
         cookies.set('token',token)
         dispatch({ type: "signIn", payload: { user, permisos } });
-        window.location.replace("/dashboard")
+        window.location.replace("/libros")
       } catch (error) {
         console.log(error);
       }

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import CompModal from "@/components/CompModal";
 
 import {
@@ -15,17 +15,17 @@ import { Link } from "@nextui-org/link";
 import NextLink from "next/link";
 import { AcmeLogo } from "@/Icons/AcmeLogo";
 import { ConfiIcon } from "@/Icons/ConfigIcon";
+import { AuthContext } from "@/context/AuthContext";
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
-  const [menuItems, setMenu] = useState<any>([
+  const menuItems = [
     { label: "Perfil", href: "/perfil", activo: false },
     { label: "Home", href: "/", activo: false },
     { label: "Libros", href: "/libros", activo: false },
     { label: "Devoluciones", href: "/devoluciones", activo: false },
     { label: "Cerrar sesión", href: "/cerrar-sesion", activo: false },
-  ]);
+  ];
 
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen} maxWidth="full" className="my-6">

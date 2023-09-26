@@ -1,72 +1,98 @@
 "use client";
+import { useRegister } from "@/hooks/pages/useRegister";
 import { Button } from "@nextui-org/button";
 import { Divider } from "@nextui-org/divider";
 import { Input } from "@nextui-org/input";
 import { Link } from "@nextui-org/react";
 import NextLink from "next/link";
-import React from "react";
 
-const page = () => {
+const Page = () => {
+  const {
+    onInputChange,
+    onSubmit,
+    nombres,
+    apellidos,
+    direccion,
+    email,
+    loadingApi,
+    numero_identificacion,
+    numero_telefono,
+    password,
+  } = useRegister();
+
   return (
     <main className="h-screen w-screen flex items-center justify-center">
       <div className="bg-fondo-color h-full w-full box-border md:h-[900px] md:w-8/12 lg:max-w-[675px] md:rounded-small md:mt-2 flex items-center justify-center flex-col ">
         <p className="text-5xl mb-5">Registro</p>
-        <form className="w-full px-8">
-          <Input type="text" label="Nombre" name="name" variant="bordered" />
+        <form className="w-full px-8" onSubmit={onSubmit}>
+          <Input
+            type="text"
+            label="Nombre"
+            name="nombres"
+            variant="bordered"
+            value={nombres}
+            onChange={onInputChange}
+          />
           <Input
             type="text"
             label="Apellidos"
             className="pt-5"
             name="apellidos"
             variant="bordered"
+            value={apellidos}
+            onChange={onInputChange}
           />
           <Input
             type="text"
-            label="Direccion"
+            label="Numero telefónico"
+            className="pt-5"
+            name="numero_telefono"
+            variant="bordered"
+            value={numero_telefono}
+            onChange={onInputChange}
+          />
+          <Input
+            type="text"
+            label="Dirección"
             className="pt-5"
             name="direccion"
             variant="bordered"
-          />
-          <Input
-            type="text"
-            label="Tipo Documento"
-            className="pt-5"
-            name="id_tipo_documento"
-            variant="bordered"
+            value={direccion}
+            onChange={onInputChange}
           />
           <Input
             type="text"
             label="Numero de documento"
             className="pt-5"
-            name="numero_documento"
+            name="numero_identificacion"
             variant="bordered"
+            value={numero_identificacion}
+            onChange={onInputChange}
           />
           <Input
-            type="text"
-            label="Numero telefonico"
+            type="email"
+            label="Email"
             className="pt-5"
-            name="numero_documento"
+            name="email"
             variant="bordered"
+            value={email}
+            onChange={onInputChange}
           />
           <Input
-            type="text"
-            label="Numero telefonico"
+            type="password"
+            label="Contraseña"
             className="pt-5"
-            name="numero_documento"
+            name="password"
             variant="bordered"
-          />
-          <Input
-            type="text"
-            label="Numero telefonico"
-            className="pt-5"
-            name="numero_documento"
-            variant="bordered"
+            value={password}
+            onChange={onInputChange}
           />
           <Button
             type="submit"
             title="Iniciar Sección"
             className="w-full mt-5"
             color="primary"
+            isLoading={loadingApi}
           >
             Registrar
           </Button>
@@ -75,7 +101,7 @@ const page = () => {
         <p className="mt-3">
           ¿Ya estas registrado?{" "}
           <Link color="primary" href="/" as={NextLink}>
-            iniciar sesion
+            iniciar sesión
           </Link>
         </p>
       </div>
@@ -83,4 +109,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
