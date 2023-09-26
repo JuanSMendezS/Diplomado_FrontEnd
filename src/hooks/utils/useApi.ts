@@ -164,6 +164,7 @@ export const useApi = () => {
     } catch (error: any) {
       setLoading(false);
       if (error.response) {
+        console.log(error.response)
         if (error.response.data.msg) {
           switch (error.response.data.msg) {
             case "INVALID_TOKEN":
@@ -172,30 +173,32 @@ export const useApi = () => {
               redirect("/");
             case "NOT-PROVIDED-TOKEN":
               setError("Se requiere un token");
-              throw new Error("Se requiere un token");
+              //throw new Error("Se requiere un token");
             case "NOT-PROVIDED-IP":
               setError("No se reconoció el origen de la petición");
-              throw new Error("No se reconoció el origen de la petición");
+              //throw new Error("No se reconoció el origen de la petición");
 
             default:
               setError(error.response.data.msg);
-              throw new Error(error.response.data.msg);
+              //throw new Error(error.response.data.msg);
           }
         } else {
           setError(
             "Error interno del servidor, actualiza la página e intente nuevamente."
           );
+          /*
           throw new Error(
             "Error interno del servidor, actualiza la página e intente nuevamente."
-          );
+          );*/
         }
       } else {
         setError(
           "Error de conexión, actualiza la página e intente nuevamente."
         );
+        /*
         throw new Error(
           "Error de conexión, actualiza la página e intente nuevamente."
-        );
+        );*/
       }
     }
   };

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 
 import {
   Modal,
@@ -10,20 +10,35 @@ import {
   useDisclosure,
 } from "@nextui-org/modal";
 import { Input } from "@nextui-org/input";
-import { Checkbox } from "@nextui-org/checkbox";
 import { Link } from "@nextui-org/link";
 import NextLink from "next/link";
 import { Button } from "@nextui-org/button";
 import { MailIcon } from "@/Icons/MailIcon.jsx";
 import { LockIcon } from "@/Icons/LockIcon";
+import { useForm } from "@/hooks/utils";
+import { AuthContext } from "@/context/AuthContext";
 
 export default function App() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { password, email, onInputChange, resetForm, formState } = useForm({
+    email: "",
+    password: "",
+  });
+
+  const {signIn}=useContext(AuthContext);
+
+  useEffect(() => {
+    if (!isOpen) {
+      resetForm();
+    }
+  }, [isOpen]);
+
+
 
   return (
     <>
       <Button onPress={onOpen} color="secondary" variant="flat">
-        Iniciar Sesion
+        Iniciar Sesión
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
         <ModalContent>
@@ -37,6 +52,9 @@ export default function App() {
                     <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                   }
                   label="Correo"
+                  name="email"
+                  onChange={onInputChange}
+                  value={email}
                   placeholder="Ingresa tu correo"
                   variant="bordered"
                   className="outline-red-600"
@@ -48,37 +66,30 @@ export default function App() {
                   label="Contraseña"
                   placeholder="Ingresa tu contraseña"
                   type="password"
+                  name="password"
+                  onChange={onInputChange}
+                  value={password}
                   variant="bordered"
                 />
-                <div className="flex py-2 px-1 justify-between">
-                  <Checkbox
-                    classNames={{
-                      label: "text-small",
-                    }}
-                    color="secondary"
+                <div className="flex flex-row justify-between w-auto">
+                  <Link
+                    color="primary"
+                    href="/registrarse"
+                    size="sm"
+                    as={NextLink}
                   >
-                    Recuerdame
-                  </Checkbox>
-                  <div className="flex flex-col">
-                    <Link
-                      color="primary"
-                      href="/registrarse"
-                      size="sm"
-                      as={NextLink}
-                    >
-                      Registrarse
-                    </Link>
-                    <Link color="primary" href="#" size="sm" as={NextLink}>
-                      Recuperar contraseña
-                    </Link>
-                  </div>
+                    Registrarse
+                  </Link>
+                  <Link color="primary" href="#" size="sm" as={NextLink}>
+                    Recuperar contraseña
+                  </Link>
                 </div>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="flat" onPress={onClose}>
                   Cerrar
                 </Button>
-                <Button color="secondary" variant="ghost" onPress={onClose}>
+                <Button color="secondary" variant="ghost" onPress={()=>signIn(formState)}>
                   Ingresar
                 </Button>
               </ModalFooter>
