@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Providers } from "./providers";
-import clsx from "clsx";
+//import clsx from "clsx";
 
 export const metadata: Metadata = {
   title: {
@@ -40,12 +40,7 @@ export default function RootLayout({
           href="https://www.cuc.edu.co/wp-content/uploads/2022/06/cropped-faviconV2-1-180x180.png"
         />
       </head>
-      <body
-        className={clsx(
-          "min-h-screen bg-background font-sans antialiased h-screen",
-          fontSans.variable
-        )}
-      >
+      <body className="cuerpo">
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           {children}
         </Providers>

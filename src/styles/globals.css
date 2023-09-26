@@ -7,3 +7,15 @@
 * {
   font-family: "Roboto", sans-serif;
 }
+body{
+  background-size: cover;
+  background-color:aqua
+}
+.cuerpo{
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 935px;
+  background-size: cover;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAJCAYAAAAGuM1UAAAAAXNSR0IArs4c6QAAAKpJREFUKFNNUVsOwyAMs0PVTfuaut3/pANPTiiiohQCfsTlibcIYNCzcgQaBMEVgLluPhfAE1cC1pO4ApMENU8INBF84CqqIp+s+9cKtW/gVJiAW4XLjCvdhhBgvpulQrlYdiLxcVuq3W6JiNmMFYhROrIRdxvQ6sEeafwxWeuyyQcbQh1iR+gAn/xUSkYvG1ZwmBWq54FeIb/4FRQpEdoyzItTWf4vVvzhD9UePSUo99enAAAAAElFTkSuQmCC");
+}
