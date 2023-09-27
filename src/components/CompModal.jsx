@@ -29,7 +29,7 @@ export default function CompModal() {
       <Button onPress={onOpen} color="secondary" variant="flat">
         Iniciar Sesión
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
         <ModalContent>
           {(onClose) => (
             <>
@@ -64,7 +64,7 @@ export default function CompModal() {
                   <Link color="primary" href="/registrarse" size="md">
                     Registrarse
                   </Link>
-                  <Link onPressChange={onClose}>
+                  <Link onPressChange={onClose} className="cursor-pointer">
                     <CompModalResta />
                   </Link>
                 </div>

@@ -149,7 +149,7 @@ export const RecordBook = () => {
               {foto.file !== undefined ? (
                 <img
                   alt="Relaxing app background"
-                  className="z-0 w-full h-full object-cover"
+                  className="z-0 w-full h-full bg-cover rounded-md"
                   src={foto.url}
                 />
               ) : (
