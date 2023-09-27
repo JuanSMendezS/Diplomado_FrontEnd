@@ -3,7 +3,7 @@ import { Navigate, Route } from "react-router-dom";
 import { BrowserRouter, Routes } from "react-router-dom";
 import Cookies from "universal-cookie";
 import CompNavbar from "./components/CompNavbar";
-import { Register, Home, Libros, RecordBook } from "./pages";
+import { Register, Home, Libros, RecordBook, EditBooks } from "./pages";
 import { AuthContext } from "./context/AuthContext";
 
 const ProtectedRoute = ({ children, id }) => {
@@ -41,6 +41,22 @@ function App() {
           />
           <Route
             path="/libros/record-book"
+            element={
+              //<ProtectedRoute id={10}>
+              <RecordBook />
+              //</ProtectedRoute>
+            }
+          />
+          <Route
+            path="/libros/edit-book"
+            element={
+              //<ProtectedRoute id={10}>
+              <EditBooks />
+              //</ProtectedRoute>
+            }
+          />
+          <Route
+            path="/libros/edit-book/:id"
             element={
               //<ProtectedRoute id={10}>
               <RecordBook />

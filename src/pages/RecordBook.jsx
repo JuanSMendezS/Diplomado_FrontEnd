@@ -1,90 +1,21 @@
 import { Input, Divider, Button } from "@nextui-org/react";
-import { useApi, useForm, useSwal } from "../hooks/utils";
-import { AuthContext } from "../context/AuthContext";
-import { useContext, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import { useManagerBook } from "../hooks/pages";
 
 export const RecordBook = () => {
   const {
+    crearLibro,
+    loadingApi,
     onInputChange,
-    formState,
+    permisos,
+    soloNumeros,
     titulo,
     autor,
-    foto,
     descripcion,
     disponibilidad,
-  } = useForm({
-    titulo: "",
-    autor: "",
-    foto: {
-      file: undefined,
-      url: "",
-    },
-    descripcion: "",
-    disponibilidad: "",
-  });
-  const { permisos } = useContext(AuthContext);
-  const { errorApi, loadingApi, loadApi } = useApi();
-  const { toast, alert } = useSwal();
-  const history = useNavigate();
-  const crearLibro = async (e) => {
-    e.preventDefault();
-    if (!titulo) {
-      toast({
-        icon: "warning",
-        text: "Debe ingresar el titulo.",
-        position: "top",
-      });
-      return;
-    }
-    if (!autor) {
-      toast({
-        icon: "warning",
-        text: "Debe ingresar el autor.",
-        position: "top",
-      });
-      return;
-    }
-    if (!descripcion) {
-      toast({
-        icon: "warning",
-        text: "Debe ingresar la descripción.",
-        position: "top",
-      });
-      return;
-    }
-    if (!disponibilidad) {
-      toast({
-        icon: "warning",
-        text: "Debe ingresar la disponibilidad.",
-        position: "top",
-      });
-      return;
-    }
-
-    try {
-      const { data } = await loadApi({
-        body: { ...formState, foto: foto.file },
-        file: true,
-        token: true,
-        type: "POST",
-        endpoint: "libros",
-      });
-      if (data.estado) {
-        alert({ text: "El Libro se registro con éxito.", icon: "success" });
-        history("/libros");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    if (errorApi) {
-      toast({ text: errorApi, icon: "error", position: "top" });
-    }
-  }, [errorApi]);
-
+    foto,
+    id,
+  } = useManagerBook();
   if (
     !permisos
       ?.filter((item) => item.modulosAcciones.id_modulos === 10)
@@ -93,12 +24,6 @@ export const RecordBook = () => {
   ) {
     return <Navigate to="/" />;
   }
-  const soloNumeros = (e) => {
-    const key = e.charCode;
-    if (!(key >= 48 && key <= 57)) {
-      e.preventDefault();
-    }
-  };
   return (
     <main className="w-screen flex items-center justify-center">
       <div className="bg-fondo-color h-full w-full box-border md:h-[900px] md:w-8/12 lg:max-w-[675px] md:rounded-small md:mt-2 flex items-center justify-center flex-col ">
@@ -188,15 +113,27 @@ export const RecordBook = () => {
               />
             </label>
           </div>
-          <Button
-            type="submit"
-            title="Iniciar Sección"
-            className="w-full mt-5"
-            color="primary"
-            isLoading={loadingApi}
-          >
-            Registrar
-          </Button>
+          {id ? (
+            <Button
+              type="submit"
+              title="Actualizar"
+              className="w-full mt-5"
+              color="warning"
+              isLoading={loadingApi}
+            >
+              Actualizar
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              title="Registrar"
+              className="w-full mt-5"
+              color="primary"
+              isLoading={loadingApi}
+            >
+              Registrar
+            </Button>
+          )}
         </form>
         <Divider className="my-6" />
       </div>

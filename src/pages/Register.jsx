@@ -83,7 +83,7 @@ export const Register = () => {
           />
           <Button
             type="submit"
-            title="Iniciar Sección"
+            title="Registrar"
             className="w-full mt-5"
             color="primary"
             isLoading={loadingApi}

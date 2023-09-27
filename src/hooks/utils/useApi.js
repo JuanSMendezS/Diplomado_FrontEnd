@@ -149,7 +149,8 @@ export const useApi = () => {
               setError(error.response.data.msg);
               break;
           }
-        } else {
+          return error.response;
+        } else { 
           setError(
             "Error interno del servidor, actualiza la página e intente nuevamente."
           );

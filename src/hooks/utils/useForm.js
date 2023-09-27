@@ -52,17 +52,21 @@ export const useForm = (initialForm) => {
       }
       setFormState({
         ...formState,
-        [name]: {file:files[0], url: URL.createObjectURL(files[0])},
+        [name]: { file: files[0], url: URL.createObjectURL(files[0]) },
       });
     }
   };
   const resetForm = () => {
     setFormState(initialForm);
   };
+  const changeInicialForm = (data) => {
+    setFormState(data);
+  };
   return {
     ...formState,
     formState,
     resetForm,
     onInputChange,
+    changeInicialForm
   };
 };
