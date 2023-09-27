@@ -15,12 +15,11 @@ export default function CompModal() {
   const {
     email,
     onInputChange,
-   // password,
     isOpen,
     onOpen,
     onOpenChange,
-   // SignIn,
     loading,
+    recoverPassword,
   } = useLogin();
 
   return (
@@ -53,7 +52,7 @@ export default function CompModal() {
                     color="secondary"
                     variant="ghost"
                     isLoading={loading}
-                    onPress={() =>{}}
+                    onPress={recoverPassword}
                   >
                     Recuperar
                   </Button>

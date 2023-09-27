@@ -74,7 +74,14 @@ export const useApi = () => {
     setErrorApi(error);
   }
 
-  const loadApi = async ({ type = "GET", endpoint='', token=false, body, file=false }) => {
+  const loadApi = async ({
+    type = "GET",
+    endpoint = "",
+    token = false,
+    body,
+    file = false,
+    manualToken = "",
+  }) => {
     setErrorApi("");
     setLoading(true);
     setLoadedApi((prevState) =>
@@ -88,13 +95,17 @@ export const useApi = () => {
       };
 
       if (token) {
-        const token2 = cookie.get("token");
-        if (!token2) {
-          setError("No has iniciado sesión.");
-          console.error("Token no encontrado en las cookie");
-          throw new Error("Token no encontrado en las cookie.");
+        if (manualToken.length > 0) {
+          headers["access-token"] = manualToken;
+        } else {
+          const token2 = cookie.get("token");
+          if (!token2) {
+            setError("No has iniciado sesión.");
+            console.error("Token no encontrado en las cookie");
+            throw new Error("Token no encontrado en las cookie.");
+          }
+          headers["access-token"] = token2;
         }
-        headers["access-token"] = token2;
         if (file) {
           headers["Content-Type"] = "multipart/form-data";
         }
@@ -113,7 +124,6 @@ export const useApi = () => {
             formData.append(key, body[key]);
           });
           config.data = formData;
-
         } else {
           config.data = body;
         }
@@ -136,7 +146,7 @@ export const useApi = () => {
             case "INVALID_TOKEN":
               cookie.remove("token");
               globalThis.localStorage.clear();
-              window.location.replace("/")
+              window.location.replace("/");
               break;
             case "NOT-PROVIDED-TOKEN":
               setError("Se requiere un token");
@@ -150,7 +160,7 @@ export const useApi = () => {
               break;
           }
           return error.response;
-        } else { 
+        } else {
           setError(
             "Error interno del servidor, actualiza la página e intente nuevamente."
           );

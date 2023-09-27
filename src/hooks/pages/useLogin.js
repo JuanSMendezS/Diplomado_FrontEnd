@@ -1,5 +1,5 @@
 import { useDisclosure } from "@nextui-org/react";
-import { useForm, useSwal } from "../utils";
+import { useApi, useForm, useSwal } from "../utils";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -7,6 +7,7 @@ export const useLogin = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { toast } = useSwal();
   const [loading, setLoading] = useState(false);
+  const { loadApi, errorApi } = useApi();
   const { onInputChange, resetForm, formState } = useForm({
     email: "",
     password: "",
@@ -32,6 +33,27 @@ export const useLogin = () => {
     setLoading(signIn(formState));
   };
 
+  const recoverPassword = async () => {
+    setLoading(true);
+    const { email } = formState;
+    const { data } = await loadApi({
+      type: "post",
+      endpoint: "usuarios/recover-account",
+      body: { email },
+    });
+    if (data.estado) {
+      toast({ icon: "info", text: data.msg, position: "top" });
+    }
+    onOpenChange();
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (errorApi) {
+      toast({ icon: "error", text: errorApi, position: "top" });
+    }
+  }, [errorApi]);
+
   return {
     onOpen,
     isOpen,
@@ -40,5 +62,6 @@ export const useLogin = () => {
     onInputChange,
     SignIn,
     loading,
+    recoverPassword,
   };
 };
