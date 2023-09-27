@@ -33,17 +33,17 @@ function App() {
           <Route
             path="/libros"
             element={
-              <ProtectedRoute id={10}>
-                <Libros />
-              </ProtectedRoute>
+              //<ProtectedRoute id={10}>
+              <Libros />
+              //</ProtectedRoute>
             }
           />
           <Route
             path="/libros/record-book"
             element={
-              <ProtectedRoute id={10}>
-                <RecordBook />
-              </ProtectedRoute>
+              //<ProtectedRoute id={10}>
+              <RecordBook />
+              //</ProtectedRoute>
             }
           />
         </Routes>

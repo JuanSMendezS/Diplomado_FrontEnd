@@ -11,10 +11,19 @@ import {
 import { useLogin } from "../hooks/pages/";
 import { MailIcon } from "../Icons/MailIcon";
 import { LockIcon } from "../Icons/LockIcon";
-import * as Router from "react-router-dom";
+import CompModalResta from "./CompModalResta";
 
 export default function CompModal() {
-const {email,onInputChange,password, isOpen, onOpen, onOpenChange,SignIn,loading } = useLogin();
+  const {
+    email,
+    onInputChange,
+    password,
+    isOpen,
+    onOpen,
+    onOpenChange,
+    SignIn,
+    loading,
+  } = useLogin();
   return (
     <>
       <Button onPress={onOpen} color="secondary" variant="flat">
@@ -52,15 +61,11 @@ const {email,onInputChange,password, isOpen, onOpen, onOpenChange,SignIn,loading
                   variant="bordered"
                 />
                 <div className="flex flex-row justify-between w-auto">
-                  <Link
-                    color="primary"
-                    href="/registrarse"
-                    size="sm"
-                  >
+                  <Link color="primary" href="/registrarse" size="md">
                     Registrarse
                   </Link>
-                  <Link color="primary" href="#" size="sm" as={Router.Link}>
-                    Recuperar contraseña
+                  <Link onPressChange={onClose}>
+                    <CompModalResta />
                   </Link>
                 </div>
               </ModalBody>
@@ -68,7 +73,12 @@ const {email,onInputChange,password, isOpen, onOpen, onOpenChange,SignIn,loading
                 <Button color="danger" variant="flat" onPress={onClose}>
                   Cerrar
                 </Button>
-                <Button color="secondary" variant="ghost" isLoading={loading} onPress={SignIn}>
+                <Button
+                  color="secondary"
+                  variant="ghost"
+                  isLoading={loading}
+                  onPress={SignIn}
+                >
                   Ingresar
                 </Button>
               </ModalFooter>
