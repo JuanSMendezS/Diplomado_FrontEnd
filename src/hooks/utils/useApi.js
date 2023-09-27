@@ -110,9 +110,10 @@ export const useApi = () => {
         if (file) {
           const formData = new FormData();
           Object.keys(body).forEach((key) => {
-            formData.append(key, JSON.stringify(body[key]));
+            formData.append(key, body[key]);
           });
           config.data = formData;
+
         } else {
           config.data = body;
         }

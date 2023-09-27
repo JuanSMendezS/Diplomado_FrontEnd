@@ -16,7 +16,7 @@ export const RecordBook = () => {
   } = useForm({
     titulo: "",
     autor: "",
-    foto: null,
+    foto: undefined,
     descripcion: "",
     disponibilidad: "",
   });
