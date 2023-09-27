@@ -5,6 +5,7 @@ import Cookies from "universal-cookie";
 import CompNavbar from "./components/CompNavbar";
 import { Register, Home, Libros, RecordBook } from "./pages";
 import { AuthContext } from "./context/AuthContext";
+
 const ProtectedRoute = ({ children, id }) => {
   const cookie = new Cookies();
   const token = cookie.get("token");
