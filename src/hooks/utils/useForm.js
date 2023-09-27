@@ -52,7 +52,7 @@ export const useForm = (initialForm) => {
       }
       setFormState({
         ...formState,
-        [name]: files[0],
+        [name]: {file:files[0], url: URL.createObjectURL(files[0])},
       });
     }
   };
