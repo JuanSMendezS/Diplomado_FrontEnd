@@ -6,15 +6,33 @@ import {
   TableRow,
   TableCell,
   Button,
+  Input,
 } from "@nextui-org/react";
 import { useLibros } from "../hooks/pages";
 
 export const EditBooks = () => {
-  const { libros, permisos, deleteBook, loadingApi, redirectEdit } =
+  const { libros, permisos, deleteBook, loadingApi, redirectEdit, Filtrar } =
     useLibros();
 
   return (
     <div className="w-[60%] m-auto my-10">
+      <div className="w-full flex justify-end mb-5 items-end">
+        <Input
+          classNames={{
+            base: "max-w-full sm:max-w-[10rem] h-10",
+            mainWrapper: "h-full",
+            input: "text-small",
+            inputWrapper:
+              "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
+          }}
+          placeholder="Ingrese titulo..."
+          size="sm"
+          onChange={(e) => Filtrar(e.target.value)}
+          type="search"
+          color="secondary"
+        />
+      </div>
+
       <Table aria-label="Example static collection table">
         <TableHeader>
           <TableColumn>Titulo</TableColumn>

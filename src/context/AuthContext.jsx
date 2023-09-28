@@ -32,7 +32,7 @@ export const AuthContextProvider = ({ children }) => {
         });
 
         const { user, permisos, token } = data.data;
-        cookies.set("token", token);
+        cookies.set("token", token,{expires:'1d'});
         const newData = { user, permisos };
         localStorage.setItem("state", JSON.stringify(newData));
         dispatch({ type: "signIn", payload: newData });

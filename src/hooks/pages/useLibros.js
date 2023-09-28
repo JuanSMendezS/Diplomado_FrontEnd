@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export const useLibros = () => {
   const [libros, setLibros] = useState([]);
+  const [librosFiltrado, setLibrosFiltrado] = useState([]);
   const { loadApi, errorApi, loadingApi } = useApi();
   const { alert } = useSwal();
   const { permisos } = useContext(AuthContext);
@@ -20,6 +21,7 @@ export const useLibros = () => {
         });
         if (data.estado) {
           setLibros(data.books);
+          setLibrosFiltrado(data.books);
         }
       } catch (error) {
         console.log(error);
@@ -53,8 +55,14 @@ export const useLibros = () => {
   const redirectEdit = (id) => {
     history("/libros/edit-book/" + id);
   };
+
+  const Filtrar =(value)=>{
+    setLibrosFiltrado(libros.filter(item => item.titulo.includes(value)));
+  }
+
   return {
-    libros,
+    libros: librosFiltrado,
+    Filtrar,
     permisos: permisos
       ?.filter((item) => item.modulosAcciones.id_modulos === 10)
       .map((item) => item.modulosAcciones.id_acciones),
