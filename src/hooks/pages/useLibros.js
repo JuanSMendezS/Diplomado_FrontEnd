@@ -58,9 +58,13 @@ export const useLibros = () => {
   };
 
   const Filtrar = (value) => {
-    setLibrosFiltrado(libros.filter((item) => item.titulo.includes(value)));
+    setLibrosFiltrado(
+      libros.filter((item) =>
+        item.titulo.toUpperCase().includes(value.toUpperCase())
+      )
+    );
   };
-  
+
   const loanBook = async (id_libro) => {
     try {
       const { data } = await loadApi({

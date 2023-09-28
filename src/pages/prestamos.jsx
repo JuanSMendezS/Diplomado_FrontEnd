@@ -26,7 +26,7 @@ export const Prestamos = () => {
             return (
               <TableRow key={prestamo.id}>
                 <TableCell>{prestamo.Libros.titulo}</TableCell>
-                <TableCell>{prestamo.Libros.titulo}</TableCell>
+                <TableCell>{prestamo.Libros.autor}</TableCell>
                 <TableCell>
                   {dateFormat(new Date(prestamo.createdAt))}
                 </TableCell>
