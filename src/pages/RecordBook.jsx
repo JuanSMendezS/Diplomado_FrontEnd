@@ -15,6 +15,7 @@ export const RecordBook = () => {
     disponibilidad,
     foto,
     id,
+    editarLibro,
   } = useManagerBook();
   if (
     !permisos
@@ -28,7 +29,10 @@ export const RecordBook = () => {
     <main className="w-screen flex items-center justify-center">
       <div className="bg-fondo-color h-full w-full box-border md:h-[900px] md:w-8/12 lg:max-w-[675px] md:rounded-small md:mt-2 flex items-center justify-center flex-col ">
         <p className="text-5xl mb-5">Registra Libro</p>
-        <form className="w-full px-8" onSubmit={(e) => crearLibro(e)}>
+        <form
+          className="w-full px-8"
+          onSubmit={(e) => (id ? editarLibro(e) : crearLibro(e))}
+        >
           <Input
             type="text"
             label="Titulo"

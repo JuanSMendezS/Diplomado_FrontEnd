@@ -97,7 +97,6 @@ export const useManagerBook = () => {
       type: "get",
       endpoint: "libros/" + id,
     });
-    console.log(data)
     if (data.estado) {
       const { book } = data;
       if (book.foto) {
@@ -118,7 +117,11 @@ export const useManagerBook = () => {
         });
       }
     } else {
-      toast({icon:'error', text:'No se encontró el libro.', position:'top'})
+      toast({
+        icon: "error",
+        text: "No se encontró el libro.",
+        position: "top",
+      });
       history("/libros/edit-book/");
     }
   };
@@ -175,11 +178,56 @@ export const useManagerBook = () => {
     }
   };
 
-  useEffect(() => {
-    if (errorApi) {
-      toast({ text: errorApi, icon: "error", position: "top" });
+  const editarLibro = async (e) => {
+    e.preventDefault();
+    if (!titulo) {
+      toast({
+        icon: "warning",
+        text: "Debe ingresar el titulo.",
+        position: "top",
+      });
+      return;
     }
-  }, [errorApi]);
+    if (!autor) {
+      toast({
+        icon: "warning",
+        text: "Debe ingresar el autor.",
+        position: "top",
+      });
+      return;
+    }
+    if (!descripcion) {
+      toast({
+        icon: "warning",
+        text: "Debe ingresar la descripción.",
+        position: "top",
+      });
+      return;
+    }
+    if (!disponibilidad) {
+      toast({
+        icon: "warning",
+        text: "Debe ingresar la disponibilidad.",
+        position: "top",
+      });
+      return;
+    }
+    try {
+      const { data } = await loadApi({
+        body: { ...formState, foto: foto.file },
+        file: true,
+        token: true,
+        type: "put",
+        endpoint: "libros/" + id,
+      });
+      if (data.estado) {
+        alert({ text: "El Libro se registro con éxito.", icon: "success" });
+        history("/libros");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const soloNumeros = (e) => {
     const key = e.charCode;
@@ -187,11 +235,18 @@ export const useManagerBook = () => {
       e.preventDefault();
     }
   };
+
   useEffect(() => {
     if (id !== undefined) {
       getBook();
     }
   }, []);
+
+  useEffect(() => {
+    if (errorApi) {
+      toast({ text: errorApi, icon: "error", position: "top" });
+    }
+  }, [errorApi]);
 
   return {
     soloNumeros,
@@ -200,6 +255,7 @@ export const useManagerBook = () => {
     permisos,
     loadingApi,
     id,
+    editarLibro,
     ...formState,
   };
 };
