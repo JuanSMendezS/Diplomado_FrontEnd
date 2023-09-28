@@ -1,5 +1,5 @@
 import { Input, Button, Divider } from "@nextui-org/react";
-import { useRecuperar } from "../hooks/pages/useRecuperar";
+import { useRecuperar } from "../hooks/pages";
 export const Recuperar = () => {
 const {changePassword,loadingApi,onInputChange,password,passwordConfirmation}=useRecuperar();
   return (

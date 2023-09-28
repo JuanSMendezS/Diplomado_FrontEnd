@@ -60,6 +60,7 @@ export const useLibros = () => {
   const Filtrar = (value) => {
     setLibrosFiltrado(libros.filter((item) => item.titulo.includes(value)));
   };
+  
   const loanBook = async (id_libro) => {
     try {
       const { data } = await loadApi({
