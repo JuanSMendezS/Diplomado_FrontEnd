@@ -3,7 +3,7 @@ import { Button, Input, Link } from "@nextui-org/react";
 import { useLibros } from "../hooks/pages/";
 
 export const Libros = () => {
-  const { libros, permisos, Filtrar } = useLibros();
+  const { libros, permisos, Filtrar, loadingApi, loanBook } = useLibros();
 
   return (
     <>
@@ -18,7 +18,7 @@ export const Libros = () => {
           }}
           placeholder="Ingrese titulo..."
           size="sm"
-          onChange={(e)=>Filtrar(e.target.value)}
+          onChange={(e) => Filtrar(e.target.value)}
           type="search"
           color="secondary"
         />
@@ -40,7 +40,14 @@ export const Libros = () => {
       </div>
       <div className="w-[90%] flex justify-start flex-wrap m-auto mt-6 gap-6">
         {libros.map((libro) => {
-          return <CompCard key={libro.id} datos={libro} />;
+          return (
+            <CompCard
+              key={libro.id}
+              datos={libro}
+              loanBook={loanBook}
+              loading={loadingApi}
+            />
+          );
         })}
       </div>
     </>

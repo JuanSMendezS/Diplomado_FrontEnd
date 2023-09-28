@@ -7,7 +7,7 @@ export const useLibros = () => {
   const [libros, setLibros] = useState([]);
   const [librosFiltrado, setLibrosFiltrado] = useState([]);
   const { loadApi, errorApi, loadingApi } = useApi();
-  const { alert } = useSwal();
+  const { alert, toast } = useSwal();
   const { permisos } = useContext(AuthContext);
   const history = useNavigate();
 
@@ -15,9 +15,10 @@ export const useLibros = () => {
     const getLibros = async () => {
       try {
         const { data } = await loadApi({
-          endpoint: "libros",
-          type: "GET",
+          endpoint: "libros/get-books",
+          type: "post",
           token: true,
+          body: { where: { gt: { disponibilidad: 0 } } },
         });
         if (data.estado) {
           setLibros(data.books);
@@ -56,9 +57,34 @@ export const useLibros = () => {
     history("/libros/edit-book/" + id);
   };
 
-  const Filtrar =(value)=>{
-    setLibrosFiltrado(libros.filter(item => item.titulo.includes(value)));
-  }
+  const Filtrar = (value) => {
+    setLibrosFiltrado(libros.filter((item) => item.titulo.includes(value)));
+  };
+  const loanBook = async (id_libro) => {
+    try {
+      const { data } = await loadApi({
+        type: "post",
+        token: true,
+        endpoint: "libros/loan-book",
+        body: { id_libro },
+      });
+      if (data.estado) {
+        toast({ text: "Préstamo exitoso.", icon: "success", position: "top" });
+        const list = libros
+          .map((item) => {
+            if (item.id === id_libro) {
+              item.disponibilidad = item.disponibilidad - 1;
+            }
+            return item;
+          })
+          .filter((item) => item.disponibilidad !== 0);
+        setLibros(list);
+        setLibrosFiltrado(list);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return {
     libros: librosFiltrado,
@@ -69,6 +95,7 @@ export const useLibros = () => {
     deleteBook,
     loadingApi,
     redirectEdit,
+    loanBook,
   };
 };
 

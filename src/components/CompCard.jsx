@@ -1,7 +1,7 @@
 import { Button, Card, CardFooter, Image } from "@nextui-org/react";
 
-const CompCard = ({ datos }) => {
-  const { titulo, foto, autor, descripcion } = datos;
+const CompCard = ({ datos, loading, loanBook }) => {
+  const { titulo, foto, autor, descripcion, id } = datos;
   return (
     <div>
       <Card
@@ -16,13 +16,23 @@ const CompCard = ({ datos }) => {
           removeWrapper
           alt="Card example background"
           className="z-0 w-full h-full scale-125 -translate-y-6 object-cover"
-          src={foto!==null?`data:image/${foto.extension};base64,${foto.Base64}`:null}
+          src={
+            foto !== null
+              ? `data:image/${foto.extension};base64,${foto.Base64}`
+              : null
+          }
         />
         <CardFooter className="absolute bg-white/30 bottom-0 border-t-1 border-zinc-100/50 z-10 justify-between">
           <div>
             <p className="text-black text-tiny">{descripcion}</p>
           </div>
-          <Button className="text-tiny" color="secondary" size="sm">
+          <Button
+            className="text-tiny"
+            color="secondary"
+            size="sm"
+            onClick={() => loanBook(id)}
+            isLoading={loading}
+          >
             Prestar
           </Button>
         </CardFooter>

@@ -10,7 +10,7 @@ export const useNavbar = () => {
   const menuItems = token
     ? [
         { label: "Libros", href: "/libros", activo: false },
-        { label: "Devoluciones", href: "/devoluciones", activo: false },
+        { label: "Devoluciones", href: "/libros/loan", activo: false },
         { label: "Perfil", href: "/perfil", activo: false },
       ]
     : [];
