@@ -12,13 +12,15 @@ export const Register = () => {
     numero_identificacion,
     numero_telefono,
     password,
+    id,
+    updateData,
   } = useRegister();
 
   return (
     <main className="flex items-center justify-center">
       <div className="bg-fondo-color h-full w-full box-border md:h-[900px] md:w-8/12 lg:max-w-[675px] md:rounded-small md:mt-2 flex items-center justify-center flex-col ">
-        <p className="text-5xl mb-5">Registro</p>
-        <form className="w-full px-8" onSubmit={onSubmit}>
+        <p className="text-5xl mb-5">{id ? "Actualizar" : "Registro"}</p>
+        <form className="w-full px-8" onSubmit={id ? updateData : onSubmit}>
           <Input
             type="text"
             label="Nombre"
@@ -81,25 +83,40 @@ export const Register = () => {
             value={password}
             onChange={onInputChange}
           />
-          <Button
-            type="submit"
-            title="Registrar"
-            className="w-full mt-5"
-            color="primary"
-            isLoading={loadingApi}
-          >
-            Registrar
-          </Button>
+          {id ? (
+            <Button
+              type="submit"
+              title="Actualizar"
+              className="w-full mt-5"
+              color="warning"
+              isLoading={loadingApi}
+            >
+              Actualizar
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              title="Registrar"
+              className="w-full mt-5"
+              color="primary"
+              isLoading={loadingApi}
+            >
+              Registrar
+            </Button>
+          )}
         </form>
-        <Divider className="my-6" />
-        <p className="mt-3">
-          ¿Ya estas registrado?{" "}
-          <Link color="primary" href="/">
-            iniciar sesión
-          </Link>
-        </p>
+        {!id && (
+          <>
+            <Divider className="my-6" />
+            <p className="mt-3">
+              ¿Ya estas registrado?{" "}
+              <Link color="primary" href="/">
+                iniciar sesión
+              </Link>
+            </p>
+          </>
+        )}
       </div>
     </main>
   );
 };
-

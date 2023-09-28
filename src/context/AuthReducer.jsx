@@ -1,4 +1,3 @@
-
 export const authReducer = (state, action) => {
   switch (action.type) {
     case "signIn":
@@ -18,6 +17,11 @@ export const authReducer = (state, action) => {
           id: 0,
         },
         permisos: [],
+      };
+    case "":
+      return {
+        user: action.payload,
+        ...state,
       };
     default:
       return state;

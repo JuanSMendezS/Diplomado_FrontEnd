@@ -3,7 +3,15 @@ import { Navigate, Route } from "react-router-dom";
 import { BrowserRouter, Routes } from "react-router-dom";
 import Cookies from "universal-cookie";
 import CompNavbar from "./components/CompNavbar";
-import { Register, Home, Libros, RecordBook, EditBooks, Recuperar, Prestamos } from "./pages";
+import {
+  Register,
+  Home,
+  Libros,
+  RecordBook,
+  EditBooks,
+  Recuperar,
+  Prestamos,
+} from "./pages";
 import { AuthContext } from "./context/AuthContext";
 
 const ProtectedRoute = ({ children, id }) => {
@@ -71,12 +79,8 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/account/forget/:token"
-            element={
-              <Recuperar />
-            }
-          />
+          <Route path="/account/forget/:token" element={<Recuperar />} />
+          <Route path="/perfil/:id" element={<Register />} />
         </Routes>
       </BrowserRouter>
     </main>

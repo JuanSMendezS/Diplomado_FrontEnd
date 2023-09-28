@@ -32,7 +32,7 @@ export const AuthContextProvider = ({ children }) => {
         });
 
         const { user, permisos, token } = data.data;
-        cookies.set("token", token,{expires:'1d'});
+        cookies.set("token", token);
         const newData = { user, permisos };
         localStorage.setItem("state", JSON.stringify(newData));
         dispatch({ type: "signIn", payload: newData });
@@ -45,11 +45,17 @@ export const AuthContextProvider = ({ children }) => {
     requestAPI();
     return loadingApi;
   };
+  //funcion actulizar datos de usuario
   const logout = () => {
     localStorage.removeItem("state");
-    cookies.remove("token", {path:'/'});
+    cookies.remove("token", { path: "/" });
     dispatch({ type: "logout" });
     window.location.replace("/");
+  };
+
+  const updateUser = (data) => {
+    localStorage.setItem("state", JSON.stringify({ ...state, user: data }));
+    dispatch({ type: "updateUser", payload: data });
   };
 
   useEffect(() => {
@@ -68,6 +74,7 @@ export const AuthContextProvider = ({ children }) => {
         ...state,
         signIn,
         logout,
+        updateUser,
       }}
     >
       {children}
