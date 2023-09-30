@@ -26,38 +26,36 @@ export default function CompModal() {
     <>
       <Link onPress={onOpen}>Recuperar Contraseña</Link>
 
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
         <ModalContent>
-              <ModalHeader className="flex flex-col gap-1">
-                Recuperar Contraseña
-              </ModalHeader>
-              <ModalBody>
-                  <Input
-                    autoFocus
-                    endContent={
-                      <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                    }
-                    label="Correo Registrado"
-                    name="email"
-                    onChange={onInputChange}
-                    value={email}
-                    placeholder="Ingresa tu correo"
-                    variant="bordered"
-                    className="outline-red-600"
-                  />
-
-              </ModalBody>
-              <ModalFooter>
-                  <Button
-                    color="secondary"
-                    variant="ghost"
-                    isLoading={loading}
-                    onPress={recoverPassword}
-                  >
-                    Recuperar
-                  </Button>
-               
-              </ModalFooter>
+          <ModalHeader className="flex flex-col gap-1">
+            Recuperar Contraseña
+          </ModalHeader>
+          <ModalBody>
+            <Input
+              autoFocus
+              endContent={
+                <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+              }
+              label="Correo Registrado"
+              name="email"
+              onChange={onInputChange}
+              value={email}
+              placeholder="Ingresa tu correo"
+              variant="bordered"
+              className="outline-red-600"
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              color="secondary"
+              variant="ghost"
+              isLoading={loading}
+              onPress={recoverPassword}
+            >
+              Recuperar
+            </Button>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

@@ -54,7 +54,7 @@ export default function CompNavbar() {
         </NavbarContent>
 
         <NavbarContent as="div" className="items-center" justify="end">
-          <div className="hidden sm:block">
+          <div className="">
             {token.length <= 0 ? (
               <CompModal />
             ) : (
@@ -66,15 +66,6 @@ export default function CompNavbar() {
         </NavbarContent>
       </div>
       <NavbarMenu>
-        <NavbarMenuItem>
-          {token.length <= 0 ? (
-            <CompModal />
-          ) : (
-            <Button onClick={logout} color="warning" variant="flat">
-              Cerrar Sesión
-            </Button>
-          )}
-        </NavbarMenuItem>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
             <Link
